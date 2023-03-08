@@ -96,10 +96,29 @@ function createTodoItem(todo) {
         <div class="todo-text">
             <p>${todo.text}</p>
             <div id="todo-due-date"></div>
+            ${todo.description && `<div class="todo-description">${todo.description}</div>`}
         </div>
+        ${todo.description && '<button class="expand-todo"><i class="fa-solid fa-chevron-down"></i></button>'}
         <button class="delete-todo"><i class="fa-solid fa-trash-can"></i></button>
     </div>
   `;
+
+    if(todo.description) {
+        const expansion = todoItem.querySelector('.expand-todo');
+        const description = todoItem.querySelector('.todo-description');
+        expansion.addEventListener('click', function (event) {
+            console.log('clicked')
+            if (description.classList.contains('show')) {
+                description.classList.remove('show');
+                expansion.innerHTML = `<i class="fa-solid fa-chevron-down"></i>`;
+            } else {
+                description.classList.add('show');
+                expansion.innerHTML = `<i class="fa-solid fa-chevron-up"></i>`;
+            }
+
+        });
+    }
+    
     const checkbox = todoItem.querySelector('.input-checkbox');
     todoItem.addEventListener('click', function () {
         selected_todo = todo;
@@ -172,7 +191,7 @@ const onSelect = (todo) => {
         <label>Title</label>
         <input type="text" id="input-update-todo" class="input-field w-100" value="${todo.text}">
         <label class="mt-4">Description</label>
-        <textarea id="update-description" class="input-textarea w-100" value="${todo.description}"></textarea>
+        <textarea rows="10" id="update-description" class="input-textarea w-100" value="${todo.description}">${todo.description}</textarea>
         <p class="date-description">Date created: ${new Date(todo.id).toLocaleString()}</p>
         <label class="mt-4">Due Date</label>
         <input type="date" id="update-due-date" class="input-field w-100" value="${due_date}">
@@ -181,6 +200,8 @@ const onSelect = (todo) => {
             <button id="btn-update-todo" class="btn btn-primary">Update</button>
         </div>
     `;
+    
+    // adding event listeners to delete button
     const deleteTodo = el.querySelector('#btn-delete-todo');
     deleteTodo.addEventListener('click', function () {
         todos = todos.filter((item) => item.id !== todo.id);
@@ -188,13 +209,14 @@ const onSelect = (todo) => {
         printList();
         editTodo.innerHTML = '';
     });
+
+    // adding event listeners to update button
     const updateTodo = el.querySelector('#btn-update-todo');
     const text = el.querySelector('#input-update-todo');
     const description = el.querySelector('#update-description');
     const dueDate = el.querySelector('#update-due-date');
     
     updateTodo.addEventListener('click', function () {
-        console.log('update clicked')
         todo.text = text.value;
         todo.description = description.value;
         todo.due_date = dueDate.value;

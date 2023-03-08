@@ -217,12 +217,27 @@ li:first-child .todo-item {
   margin: 0;
 }
 
-#todo-list li .delete-todo {
+#todo-list li .delete-todo, .expand-todo {
   border: none;
   border-radius: 4px;
   padding: 8px;
   cursor: pointer;
   background-color: transparent;
+}
+
+.todo-description {
+  display: none;
+  padding: 8px;
+  font-size: var(--misc);
+  margin-top: 8px;
+}
+
+.todo-description.show {
+  display: block;
+}
+
+.expand-todo:hover {
+  cursor: pointer;
 }
 
 #todo-list li.no-data {
@@ -368,7 +383,7 @@ li.no-data {
 
 .due-date {
   font-size: var(--misc);
-  background: var(--color-personal);
+  background: var(--color-work);
   padding: 4px 8px;
   margin-right: 4px;
   border-radius: 4px;
